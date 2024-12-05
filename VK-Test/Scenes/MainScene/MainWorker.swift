@@ -18,23 +18,15 @@ class MainWorker {
             let (data, _) = try await URLSession.shared.data(from: url)
             let decoder = JSONDecoder()
             let response = try decoder.decode(Repository.self, from: data)
+            print(response, "response")
             return response.items
         } catch {
-            do {
-                let (data, _) = try await URLSession.shared.data(from: url)
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(ErrorRequest.self, from: data)
-                return []
-            }
-            catch {
-                print("Error fetching repositories: \(error)")
-                return []
-            }
+            print("Error fetching repositories: \(error)")
+            return []
         }
     }
     
     func loadImage(by url: String) async throws -> Data? {
-        if !NetworkManager.shared.isNetworkAvailable { return nil }
         let url = URL(string: url)!
         do {
             let data = try await URLSession.shared.data(from: url)

@@ -59,9 +59,8 @@ final class MainViewController: UIViewController {
     }
     
     func updateData(items: [Item], empty: Bool) {
-        if empty {
-            print("Empty response")
-            errorPage = true
+        if !empty {
+            errorPage = false
         }
         removeActivityIndicator()
         dataRepositories = items
@@ -227,7 +226,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == dataRepositories.count - 1 && !errorPage {
-            print(page, "PageNum")
+            errorPage = true
             page += 1
             setActivityIndicator()
             fetchRepositories()
